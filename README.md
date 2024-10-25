@@ -41,6 +41,35 @@ python .\utils\check_gpu_status.py
 pip install -r requirements.txt
 ```
 
+Windows:
+```bash 
+# install GPU PyTorch
+conda install pytorch=2.0.0 torchvision pytorch-cuda=11.8 -c pytorch -c nvidia
+
+# checking PyTorch with GPU
+python .\utils\check_gpu_status.py
+
+# install modules
+pip install -r requirements.txt
+```
+
+macOS (Apple Silicon):
+```bash
+# install GPU PyTorch
+conda install pytorch::pytorch=2.0.1 torchvision torchaudio -c pytorch
+
+# checking PyTorch with GPU
+python utils/check_gpu_status_mps.py
+
+# install tensorboard
+pip install tensorboard==2.13.0
+
+# install modules
+pip install setuptools==65.5.0 pip==21
+pip install -r requirements.txt
+```
+
+
 ### Running Tests
 
 The `main/` folder of the project contains the program scripts for the classic game "Snake", based on the [Pygame](https://www.pygame.org/news) code library. You can directly run the following command to play the game:
