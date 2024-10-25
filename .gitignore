@@ -1,2 +1,3 @@
 # 忽略作業系統的檔案
 .DS_Store                # macOS
+./main/.DS_Store
