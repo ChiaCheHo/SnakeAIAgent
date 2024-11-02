@@ -3,6 +3,8 @@ import math
 import gym
 import numpy as np
 
+import random
+
 from snake_game import SnakeGame
 
 class SnakeEnv(gym.Env):
@@ -12,6 +14,7 @@ class SnakeEnv(gym.Env):
         self.game.reset()
 
         self.silent_mode = silent_mode
+        # self.render_mode="human"
 
         self.action_space = gym.spaces.Discrete(4) # 0: UP, 1: LEFT, 2: RIGHT, 3: DOWN
         
@@ -34,6 +37,12 @@ class SnakeEnv(gym.Env):
             self.step_limit = 1e9 # Basically no limit.
         self.reward_step_counter = 0
 
+    def seed(self, seed=None):
+        self.seed_value = seed
+        random.seed(seed)
+        np.random.seed(seed)
+
+
     def reset(self):
         self.game.reset()
 
@@ -46,6 +55,7 @@ class SnakeEnv(gym.Env):
     def step(self, action):
         self.done, info = self.game.step(action) # info = {"snake_size": int, "snake_head_pos": np.array, "prev_snake_head_pos": np.array, "food_pos": np.array, "food_obtained": bool}
         obs = self._generate_observation()
+        self.render()
 
         reward = 0.0
         self.reward_step_counter += 1

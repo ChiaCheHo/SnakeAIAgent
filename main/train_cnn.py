@@ -12,10 +12,14 @@ from sb3_contrib.common.wrappers import ActionMasker
 
 from snake_game_custom_wrapper_cnn import SnakeEnv
 
+from stable_baselines3.common.vec_env import DummyVecEnv
+
 if torch.backends.mps.is_available():
     NUM_ENV = 32 * 2
+    # NUM_ENV = 4
 else:
     NUM_ENV = 32
+    # NUM_ENV = 4
 LOG_DIR = "logs"
 
 os.makedirs(LOG_DIR, exist_ok=True)
@@ -50,7 +54,8 @@ def main():
         seed_set.add(random.randint(0, 1e9))
 
     # Create the Snake environment.
-    env = SubprocVecEnv([make_env(seed=s) for s in seed_set])
+    # env = SubprocVecEnv([make_env(seed=s) for s in seed_set])
+    env = DummyVecEnv([make_env(seed=s) for s in list(seed_set)[:NUM_ENV]])  # 限制环境数量为 4
 
     if torch.backends.mps.is_available():
         lr_schedule = linear_schedule(5e-4, 2.5e-6)
@@ -67,7 +72,8 @@ def main():
             gamma=0.94,
             learning_rate=lr_schedule,
             clip_range=clip_range_schedule,
-            tensorboard_log=LOG_DIR
+            # tensorboard_log=LOG_DIR
+            tensorboard_log=None
         )
     else:
         lr_schedule = linear_schedule(2.5e-4, 2.5e-6)
@@ -84,7 +90,8 @@ def main():
             gamma=0.94,
             learning_rate=lr_schedule,
             clip_range=clip_range_schedule,
-            tensorboard_log=LOG_DIR
+            # tensorboard_log=LOG_DIR
+            tensorboard_log=None
         )
 
     # Set the save directory

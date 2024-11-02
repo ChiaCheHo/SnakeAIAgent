@@ -32,8 +32,12 @@ class SnakeGame:
             self.sound_game_over = mixer.Sound("sound/game_over.wav")
             self.sound_victory = mixer.Sound("sound/victory.wav")
         else:
-            self.screen = None
-            self.font = None
+            pygame.init()
+            pygame.display.set_caption("Snake Game")
+            self.screen = pygame.display.set_mode((self.display_width, self.display_height))
+            self.font = pygame.font.Font(None, 36)
+            # self.screen = None
+            # self.font = None
 
         self.snake = None
         self.non_snake = None
@@ -249,7 +253,7 @@ if __name__ == "__main__":
     import time
 
     seed = random.randint(0, 1e9)
-    game = SnakeGame(seed=seed, silent_mode=False)
+    game = SnakeGame(seed=seed, silent_mode=True)
     pygame.init()
     game.screen = pygame.display.set_mode((game.display_width, game.display_height))
     pygame.display.set_caption("Snake Game")
@@ -290,7 +294,7 @@ if __name__ == "__main__":
                     for i in range(3, 0, -1):
                         game.screen.fill((0, 0, 0))
                         game.draw_countdown(i)
-                        game.sound_eat.play()
+                        # game.sound_eat.play()
                         pygame.time.wait(1000)
                     action = -1  # Reset action variable when starting a new game
                     game_state = "running"
@@ -300,7 +304,7 @@ if __name__ == "__main__":
                     for i in range(3, 0, -1):
                         game.screen.fill((0, 0, 0))
                         game.draw_countdown(i)
-                        game.sound_eat.play()
+                        # game.sound_eat.play()
                         pygame.time.wait(1000)
                     game.reset()
                     action = -1  # Reset action variable when starting a new game
